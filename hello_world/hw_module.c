@@ -1,9 +1,15 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 
-MODULE_AUTHOR("Danya Peschanskyi<https://github.com/danya-psch>");
-MODULE_DESCRIPTION("Hello world kernel module");
-MODULE_LICENSE("MIT");
+MODULE_AUTHOR("Danya Peschanskyi<https://github.com/danya-psch>");  // указывается, кто написал модуль
+MODULE_DESCRIPTION("Hello world kernel module"); // описание для человека, что делает модуль
+MODULE_LICENSE("MIT"); // лицензия распространяется код
+
+/*
+В этом модуле определены две функции, одна вызывается, когда модуль загружается в
+ядро (hello_init), другая, когда модуль удаляется (hello_exit). Строчки с module_init и
+module_exit используют специальные макросы ядра, чтобы задать роль этих двух функций.
+*/
 
 static int __init hw_init(void)
 {

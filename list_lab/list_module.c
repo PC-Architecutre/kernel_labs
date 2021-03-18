@@ -18,26 +18,31 @@ typedef struct {
 	uint32_t val;
 } int_node_t;
 
+// макрос для освобождения памяти выделеной под элементы списка,
+// do {}while(0) требуеться, чтоб обернуть код макроса в блок, простого {} недостаточно
 #define ilfree(list_head) \
-	do {																	\
-		int_node_t *__ptr, *__tmp;											\
-		list_for_each_entry_safe(__ptr, __tmp, (list_head), lnode) {		\
-			kfree(__ptr);													\
-		}																	\
-	} while(0)
+    do {                                                                 \
+        int_node_t *__ptr, *__tmp;                                       \
+        list_for_each_entry_safe(__ptr, __tmp, (list_head), lnode) {     \
+            kfree(__ptr);                                                \
+        }                                                                \
+    } while(0)
 
+// макрос для вывода значений списка в консоль
 #define ilprint(list_head) \
-	do {													\
-		int_node_t *__ptr;									\
-		print_msg("List: {");								\
-		list_for_each_entry(__ptr, (list_head), lnode) {	\
-			printk(KERN_ERR "\t%i ", __ptr->val);				\
-		}													\
-		printk(KERN_ERR "}\n");								\
-	} while(0)
+    do {                                                                 \
+        int_node_t *__ptr;                                               \
+        print_msg("List: {");                                            \
+        list_for_each_entry(__ptr, (list_head), lnode) {                 \
+            printk(KERN_ERR "\t%i ", __ptr->val);                        \
+        }                                                                \
+        printk(KERN_ERR "}\n");                                          \
+    } while(0)
 
+// инициализация головы списка, всю реализацию списка можно найти по ссылке https://elixir.bootlin.com/linux/latest/source/include/linux/list.h#L714
 static struct list_head int_list = LIST_HEAD_INIT(int_list);
 
+// функция которая побитово сдвигает значение каждого элемента списка на 1 влево
 static void task(void) {
 	int_node_t *ptr;
 	list_for_each_entry(ptr, &int_list, lnode) {
@@ -50,6 +55,7 @@ static int __init list_module_init(void)
 	int i;
 	int ret = 0;
 	print_msg("List allocation start...\n");
+	// выделяем динамически память для элементов списка в цыкле
 	for (i = 0; i < LIST_LEN; ++i) {
 		int_node_t *ptr = (int_node_t *)kmalloc(sizeof(*ptr), GFP_KERNEL);
 		if (!ptr) {
@@ -57,6 +63,7 @@ static int __init list_module_init(void)
 			ret = -ENOMEM;
 			goto alloc_err;
 		}
+		// функция которая дает нам рандомное значение для указанного количества байт
 		get_random_bytes(&ptr->val, sizeof(ptr->val));
 		list_add_tail(&ptr->lnode, &int_list);
 	}
