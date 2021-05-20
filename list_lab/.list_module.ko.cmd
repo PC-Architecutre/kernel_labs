@@ -1,0 +1,1 @@
+cmd_/home/user/Music/km_labs/list_lab/list_module.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000 -T /usr/src/linux-headers-4.19.0-14-common/scripts/module-common.lds  --build-id  -o /home/user/Music/km_labs/list_lab/list_module.ko /home/user/Music/km_labs/list_lab/list_module.o /home/user/Music/km_labs/list_lab/list_module.mod.o ;  true

@@ -1,6 +1,22 @@
 # km_labs
 ## Character device module
 
+1. make
+
+2. /sbin/insmod file.ko <- su!!!
+
+3. dmesg <- su !!! look to log of kernel
+
+4. cd cprog
+
+5. gcc main.c -o a.out 
+
+6. ./a.out <- su !!!
+
+7./sbin/rmmod file <- su!!! exit
+
+8. dmesg <- su !!! look to log of kernel
+
 В данной лабораторной работе 8 вариантов, в каждом из которых необходимо создать свое символьное устройство
     и воспользоватся его функционалом из простой С програмы, необходимо реальзовать функции open, close и указанные в варианте,
 в каждом варианте необходимо вывести в консоль результаты задания
